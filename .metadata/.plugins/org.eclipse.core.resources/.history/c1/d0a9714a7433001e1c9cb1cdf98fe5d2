@@ -1,0 +1,8 @@
+package com.andrew.inheritencedemo;
+
+public class FrontEndDev extends Developer{
+	public FrontEndDev() {
+		super();
+
+}
+}

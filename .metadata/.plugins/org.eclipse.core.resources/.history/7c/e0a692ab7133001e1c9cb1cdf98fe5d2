@@ -1,0 +1,17 @@
+package com.andrew.inheritencedemo;
+
+import java.util.ArrayList;
+
+public class Developer {
+
+	public Developer() {
+	    private static int devCount;
+	    private static double totalSalary;
+	    private boolean canCode = true;
+	    private String name;
+	    private int age;
+	    private double salary;
+	    private ArrayList<String> languages;
+	}
+
+}

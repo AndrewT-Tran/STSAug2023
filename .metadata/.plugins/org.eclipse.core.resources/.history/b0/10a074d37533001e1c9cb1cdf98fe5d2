@@ -1,0 +1,9 @@
+package com.andrew.inheritencedemo;
+
+public class FrontEndDev extends Developer{
+	public FrontEndDev() {
+		super("This still prints because it is a string and we specified to look for one");
+		
+
+}
+}
