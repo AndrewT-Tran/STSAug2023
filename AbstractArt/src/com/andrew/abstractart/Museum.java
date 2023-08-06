@@ -1,21 +1,12 @@
 package com.andrew.abstractart;
 
-public abstract class Museum {
-	class Sculpture extends Art {
-		  private String material;
+public class Museum {
+    public static void main(String[] args)	{
+		Painting painting = new Painting("Starry Night", "Vincent van Gogh", "A painting of a starry night sky", "Oil on canvas", 1889);
+		painting.viewArt();
 
-		  public Sculpture(String title, String author, String description, String material) {
-		    this.title = title;
-		    this.author = author;
-		    this.description = description;
-		    this.material = material;
-		  }
+		Sculpture sculpture = new Sculpture("David", "Michelangelo", "A sculpture of the biblical hero David", "Marble", 17);
+		sculpture.viewArt();
 
-		  public void viewArt() {
-		    System.out.println("Title: " + title);
-		    System.out.println("Author: " + author);
-		    System.out.println("Description: " + description);
-		    System.out.println("Material: " + material);
-		  }
-		}
+    }
 }
