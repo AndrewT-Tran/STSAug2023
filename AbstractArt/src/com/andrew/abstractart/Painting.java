@@ -1,6 +1,6 @@
 package com.andrew.abstractart;
 
-class Painting extends Art {
+public class Painting extends Art {
     private String medium;
     private int year;
 
@@ -12,7 +12,6 @@ class Painting extends Art {
         this.year = year;
     }
 
-    @Override
     public void viewArt() {
         System.out.println("Title: " + title);
         System.out.println("Author: " + author);

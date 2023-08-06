@@ -7,4 +7,3 @@ public abstract class Art {
 
     public abstract void viewArt();
 }
-
