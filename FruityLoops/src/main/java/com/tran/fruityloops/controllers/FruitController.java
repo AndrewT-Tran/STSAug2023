@@ -9,7 +9,7 @@ import com.tran.fruityloops.Fruits;
 @Controller
 public class FruitController {
 	
-	@RequestMapping("/home")
+	@RequestMapping("/")
 	public String index(Model model) {
 		
 		Fruits.add(new Fruits("Kiwi", 1.5));
