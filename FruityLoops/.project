@@ -46,7 +46,11 @@
 	</natures>
 	<filteredResources>
 		<filter>
+<<<<<<< HEAD
 			<id>1691449974364</id>
+=======
+			<id>1691464661231</id>
+>>>>>>> 9c62b84 (	new file:   .vscode/settings.json)
 			<name></name>
 			<type>30</type>
 			<matcher>
