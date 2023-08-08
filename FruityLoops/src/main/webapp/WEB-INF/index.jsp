@@ -16,10 +16,10 @@
 		</tr>
 		<c:forEach var="fruit" items="${fruits}">
 			<tr>
-				<td <c:if test="${fn:startsWith(fruit.name, 'G')}">style="color:orange"</c:if>>${fruit.name}</td>
+				<td>${fruit.name}</td>
 				<td>${fruit.price}</td>
 			</tr>
 		</c:forEach>
 	</table>
-</body>s
+</body>
 </html>
