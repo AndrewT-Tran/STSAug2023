@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-FruityLoopsApplication<FruityLoops>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.tran.fruityloops.FruityLoopsApplication",
+            "projectName": "FruityLoops",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
