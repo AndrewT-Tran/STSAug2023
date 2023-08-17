@@ -22,49 +22,49 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
 	@NotEmpty
-	@Size(min=2,message="First name cannot be blank")
+	@Size(min = 2, message = "First name cannot be blank")
 	private String firstName;
-	
+
 	@NotEmpty
-	@Size(min=2,message="Last Name cannot be blank")
+	@Size(min = 2, message = "Last Name cannot be blank")
 	private String lastName;
-	
+
 	@NotEmpty
-	@Email(message="Email cannot be blank")
+	@Email(message = "Email cannot be blank")
 	private String email;
-	
+
 	@NotEmpty
-	@Size(min=8,max=128,message="password needs to be between 8-128 characters")
+	@Size(min = 8, max = 128, message = "password needs to be between 8-128 characters")
 	private String password;
-	
+
 	@Transient
 	@NotEmpty
-	@Size(min=8, max=128, message="Confirm Password must be between 8 and 128 characters")
+	@Size(min = 8, max = 128, message = "Confirm Password must be between 8 and 128 characters")
 	private String confirm;
-	
-	@Column(updatable=false)
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date createdAt;
-	
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date updatedAt;
-    
-    // RELATIPNSHIPS
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-    private List<Book> books;
 
-	//CONSTRUCTORS
+	@Column(updatable = false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date createdAt;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date updatedAt;
+
+	// RELATIPNSHIPS
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	private List<Book> books;
+
+	// CONSTRUCTORS
 	public User() {
 		super();
 	}
-	
+
 	public User(Long id, @NotEmpty @Size(min = 2, message = "First name cannot be blank") String firstName,
 			@NotEmpty @Size(min = 2, message = "Last Name cannot be blank") String lastName,
 			@NotEmpty @Email(message = "Email cannot be blank") String email,
@@ -123,8 +123,7 @@ public class User {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
-	
-	
+
 	// GETTERS / SETTERS
 	public String getEmail() {
 		return email;
@@ -165,7 +164,7 @@ public class User {
 	public void setConfirm(String confirm) {
 		this.confirm = confirm;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -189,8 +188,7 @@ public class User {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
-	
+
 	public List<Book> getBooks() {
 		return books;
 	}
@@ -200,13 +198,12 @@ public class User {
 	}
 
 	@PrePersist
-    protected void onCreate(){
-        this.createdAt = new Date();
-    }
-	
-	@PreUpdate
-    protected void onUpdate(){
-        this.updatedAt = new Date();
-    }
-}
+	protected void onCreate() {
+		this.createdAt = new Date();
+	}
 
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = new Date();
+	}
+}
