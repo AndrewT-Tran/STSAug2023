@@ -13,67 +13,70 @@ import com.tran.bookclub.repositories.UserRepository;
 
 @Service
 public class UserService {
-
+	
 	@Autowired
 	private final UserRepository userRepo;
-
+	
 	public UserService(UserRepository userRepo) {
 		super();
 		this.userRepo = userRepo;
 	}
-
-	// find one User
+	
+	//find one User
 	public User oneUser(Long id) {
 		Optional<User> optUser = userRepo.findById(id);
-		if (optUser.isPresent()) {
+		if(optUser.isPresent()) {
 			return optUser.get();
-		} else {
+		}else {
 			return null;
 		}
 	}
-
+	
 	// method to register
 	public User register(User newUser, BindingResult result) {
-
-		if (userRepo.findByEmail(newUser.getEmail()).isPresent()) {
-			result.rejectValue("email", "Unquie", "You better think of a new email");
+		
+		if(userRepo.findByEmail(newUser.getEmail()).isPresent()) {
+			result.rejectValue("email","Unquie","You better think of a new email");
 		}
-		if (!newUser.getPassword().equals(newUser.getConfirm())) {
-			result.rejectValue("confirm", "Matches", "Passwords do not match");
+		if(!newUser.getPassword().equals(newUser.getConfirm())){
+			result.rejectValue("confirm","Matches","Passwords do not match");
 		}
-		if (result.hasErrors()) {
+		if(result.hasErrors()) {			
 			return null;
-		} else {
+		}else {
 			String hashed = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
 			newUser.setPassword(hashed);
-
+			
 			return userRepo.save(newUser);
 		}
 	}
-
+	
 	// method for login
 	public User login(LoginUser newLogin, BindingResult result) {
-		if (result.hasErrors()) {
+		if(result.hasErrors()) {			
 			return null;
 		}
-
+		
 		Optional<User> potentiallUser = userRepo.findByEmail(newLogin.getEmail());
-		if (!potentiallUser.isPresent()) {
+		if(!potentiallUser.isPresent()) {
 			System.out.println("not present");
-			result.rejectValue("email", "notFound", "Email not found");
+			result.rejectValue("email","notFound","Email not found");
 			return null;
 		}
-
+		
+		
 		User user = potentiallUser.get();
-		if (!BCrypt.checkpw(newLogin.getPassword(), user.getPassword())) {
-			result.rejectValue("password", "Matches", "Is this really your account?");
-		}
-
-		if (result.hasErrors()) {
+		if(!BCrypt.checkpw(newLogin.getPassword(), user.getPassword())) {
+			result.rejectValue("password","Matches","Is this really your account?");
+		}	
+		
+		if(result.hasErrors()) {
 			return null;
-		} else {
+		}else {
 			return user;
-		}
+		}	
 	}
-
+	
+	
 }
+
