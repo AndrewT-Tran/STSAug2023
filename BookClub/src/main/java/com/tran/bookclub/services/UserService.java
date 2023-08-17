@@ -22,6 +22,31 @@ public class UserService {
 		this.userRepo = userRepo;
 	}
 
+	// method for login
+	public User login(LoginUser newLogin, BindingResult result) {
+		if (result.hasErrors()) {
+			return null;
+		}
+
+		Optional<User> potentiallUser = userRepo.findByEmail(newLogin.getEmail());
+		if (!potentiallUser.isPresent()) {
+			System.out.println("not present");
+			result.rejectValue("email", "notFound", "Email not found");
+			return null;
+		}
+
+		User user = potentiallUser.get();
+		if (!BCrypt.checkpw(newLogin.getPassword(), user.getPassword())) {
+			result.rejectValue("password", "Matches", "Is this really your account?");
+		}
+
+		if (result.hasErrors()) {
+			return null;
+		} else {
+			return user;
+		}
+	}
+
 	// find one User
 	public User oneUser(Long id) {
 		Optional<User> optUser = userRepo.findById(id);
@@ -48,31 +73,6 @@ public class UserService {
 			newUser.setPassword(hashed);
 
 			return userRepo.save(newUser);
-		}
-	}
-
-	// method for login
-	public User login(LoginUser newLogin, BindingResult result) {
-		if (result.hasErrors()) {
-			return null;
-		}
-
-		Optional<User> potentiallUser = userRepo.findByEmail(newLogin.getEmail());
-		if (!potentiallUser.isPresent()) {
-			System.out.println("not present");
-			result.rejectValue("email", "notFound", "Email not found");
-			return null;
-		}
-
-		User user = potentiallUser.get();
-		if (!BCrypt.checkpw(newLogin.getPassword(), user.getPassword())) {
-			result.rejectValue("password", "Matches", "Is this really your account?");
-		}
-
-		if (result.hasErrors()) {
-			return null;
-		} else {
-			return user;
 		}
 	}
 

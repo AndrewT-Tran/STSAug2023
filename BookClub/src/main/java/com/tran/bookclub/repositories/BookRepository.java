@@ -9,5 +9,6 @@ import com.tran.bookclub.models.Book;
 
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
+	@Override
 	List<Book> findAll();
 }

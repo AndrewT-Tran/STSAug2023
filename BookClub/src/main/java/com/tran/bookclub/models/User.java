@@ -65,6 +65,23 @@ public class User {
 		super();
 	}
 
+	public User(Long id, @NotNull @Size(min = 2, max = 25, message = "First name cannot be blank") String firstName,
+			@NotNull @Size(min = 2, max = 25, message = "last Name cannot be blank") String lastName,
+			@NotEmpty @Email(message = "Email cannot be blank") String email,
+			@NotNull @Size(min = 8, max = 128, message = "password needs to be between 8-128 characters") String password,
+			@NotEmpty(message = "Confirm Password is required!") @Size(min = 8, max = 128, message = "Confirm Password must be between 8 and 128 characters") String confirm,
+			Date createdAt, Date updatedAt) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.confirm = confirm;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
 	public User(Long id, @NotEmpty @Size(min = 2, message = "First name cannot be blank") String firstName,
 			@NotEmpty @Size(min = 2, message = "Last Name cannot be blank") String lastName,
 			@NotEmpty @Email(message = "Email cannot be blank") String email,
@@ -107,21 +124,16 @@ public class User {
 		this.confirm = confirm;
 	}
 
-	public User(Long id, @NotNull @Size(min = 2, max = 25, message = "First name cannot be blank") String firstName,
-			@NotNull @Size(min = 2, max = 25, message = "last Name cannot be blank") String lastName,
-			@NotEmpty @Email(message = "Email cannot be blank") String email,
-			@NotNull @Size(min = 8, max = 128, message = "password needs to be between 8-128 characters") String password,
-			@NotEmpty(message = "Confirm Password is required!") @Size(min = 8, max = 128, message = "Confirm Password must be between 8 and 128 characters") String confirm,
-			Date createdAt, Date updatedAt) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-		this.confirm = confirm;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public String getConfirm() {
+		return confirm;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
 	// GETTERS / SETTERS
@@ -133,68 +145,20 @@ public class User {
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public Long getId() {
+		return id;
 	}
 
 	public String getLastName() {
 		return lastName;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getConfirm() {
-		return confirm;
-	}
-
-	public void setConfirm(String confirm) {
-		this.confirm = confirm;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public Date getUpdatedAt() {
 		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public List<Book> getBooks() {
-		return books;
-	}
-
-	public void setBooks(List<Book> books) {
-		this.books = books;
 	}
 
 	@PrePersist
@@ -205,5 +169,41 @@ public class User {
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedAt = new Date();
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
+
+	public void setConfirm(String confirm) {
+		this.confirm = confirm;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 }

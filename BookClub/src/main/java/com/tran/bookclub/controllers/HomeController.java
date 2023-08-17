@@ -29,69 +29,6 @@ public class HomeController {
 		this.userSer = userSer;
 	}
 
-	// ================================ GENERAL ================================
-	@GetMapping("/")
-	public String index(Model model, HttpSession session) {
-		if (session.getAttribute("user_id") != null) {
-			return "dashboard.jsp";
-		} else {
-			model.addAttribute("newUser", new User());
-			model.addAttribute("newLogin", new LoginUser());
-			return "index.jsp";
-		}
-	}
-
-	@GetMapping("/dashboard")
-	public String dashboard(Model model, HttpSession session) {
-		if (session.getAttribute("user_id") != null) {
-			Long loggedID = (Long) session.getAttribute("user_id");
-			com.tran.bookclub.models.User userName = userSer.oneUser(loggedID);
-			List<Book> allBooks = bookSer.allBooks();
-			model.addAttribute("logged", userName);
-			model.addAttribute("allBooks", allBooks);
-			return "dashboard.jsp";
-		} else {
-			return "redirect:/";
-		}
-	}
-
-	// ================================ LOGIN / REGISTRATION
-	// ================================
-	@PostMapping("/api/register")
-	public String register(@Valid @ModelAttribute("newUser") User newUser, BindingResult result, Model model,
-			HttpSession session) {
-
-		userSer.register(newUser, result);
-
-		if (result.hasErrors()) {
-			model.addAttribute("newLogin", new LoginUser());
-			return "index.jsp";
-		}
-
-		session.setAttribute("user_id", ((com.tran.bookclub.models.User) newUser).getId());
-		return "redirect:/dashboard";
-	}
-
-	@PostMapping("/api/login")
-	public String login(@Valid @ModelAttribute("newLogin") LoginUser newLogin, BindingResult result, Model model,
-			HttpSession session) {
-		com.tran.bookclub.models.User user = userSer.login(newLogin, result);
-		if (result.hasErrors()) {
-			model.addAttribute("newUser", new User());
-			return "index.jsp";
-		}
-
-		session.setAttribute("user_id", ((HttpSession) user).getId());
-		String string = "redirect:/dashboard";
-		return string;
-	}
-
-	@GetMapping("/logout")
-	public String dashboard(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
-	}
-
 	// ================================ BOOKS ================================
 	@GetMapping("/add/book")
 	public String addBook(Model model, HttpSession session, @ModelAttribute("book") Book book) {
@@ -114,13 +51,33 @@ public class HomeController {
 		}
 	}
 
-	@GetMapping("/book/{id}")
-	public String showBook(Model model, HttpSession session, @PathVariable("id") Long id) {
-		Book book = bookSer.singleBook(id);
-		Long loggedID = (Long) session.getAttribute("user_id");
-		model.addAttribute("logged", loggedID);
-		model.addAttribute("book", book);
-		return "book.jsp";
+	@GetMapping("/book")
+	public String book(Model model, HttpSession session) {
+		if (session.getAttribute("user_id") != null) {
+			return "book.jsp";
+		} else {
+			return "redirect:/";
+		}
+	}
+
+	@GetMapping("/logout")
+	public String dashboard(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+
+	@GetMapping("/dashboard")
+	public String dashboard(Model model, HttpSession session) {
+		if (session.getAttribute("user_id") != null) {
+			Long loggedID = (Long) session.getAttribute("user_id");
+			com.tran.bookclub.models.User userName = userSer.oneUser(loggedID);
+			List<Book> allBooks = bookSer.allBooks();
+			model.addAttribute("logged", userName);
+			model.addAttribute("allBooks", allBooks);
+			return "dashboard.jsp";
+		} else {
+			return "redirect:/";
+		}
 	}
 
 	@GetMapping("/edit/book/{id}")
@@ -147,12 +104,55 @@ public class HomeController {
 		}
 	}
 
-	@GetMapping("/book")
-	public String book(Model model, HttpSession session) {
+	// ================================ GENERAL ================================
+	@GetMapping("/")
+	public String index(Model model, HttpSession session) {
 		if (session.getAttribute("user_id") != null) {
-			return "book.jsp";
+			return "dashboard.jsp";
 		} else {
-			return "redirect:/";
+			model.addAttribute("newUser", new User());
+			model.addAttribute("newLogin", new LoginUser());
+			return "index.jsp";
 		}
+	}
+
+	@PostMapping("/api/login")
+	public String login(@Valid @ModelAttribute("newLogin") LoginUser newLogin, BindingResult result, Model model,
+			HttpSession session) {
+		com.tran.bookclub.models.User user = userSer.login(newLogin, result);
+		if (result.hasErrors()) {
+			model.addAttribute("newUser", new User());
+			return "index.jsp";
+		}
+
+		session.setAttribute("user_id", ((HttpSession) user).getId());
+		String string = "redirect:/dashboard";
+		return string;
+	}
+
+	// ================================ LOGIN / REGISTRATION
+	// ================================
+	@PostMapping("/api/register")
+	public String register(@Valid @ModelAttribute("newUser") User newUser, BindingResult result, Model model,
+			HttpSession session) {
+
+		userSer.register(newUser, result);
+
+		if (result.hasErrors()) {
+			model.addAttribute("newLogin", new LoginUser());
+			return "index.jsp";
+		}
+
+		session.setAttribute("user_id", newUser.getId());
+		return "redirect:/dashboard";
+	}
+
+	@GetMapping("/book/{id}")
+	public String showBook(Model model, HttpSession session, @PathVariable("id") Long id) {
+		Book book = bookSer.singleBook(id);
+		Long loggedID = (Long) session.getAttribute("user_id");
+		model.addAttribute("logged", loggedID);
+		model.addAttribute("book", book);
+		return "book.jsp";
 	}
 }

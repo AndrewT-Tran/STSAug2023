@@ -11,6 +11,7 @@ import com.tran.bookclub.models.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
+	@Override
 	List<User> findAll();
 
 	Optional<User> findByEmail(String email);
